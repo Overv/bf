@@ -76,7 +76,7 @@ fn parse(opcodes: Vec<OpCode>) -> Vec<Instruction> {
                     None
                 },
 
-                OpCode::LoopEnd => panic!("unmatched loop ending"),
+                OpCode::LoopEnd => panic!("loop ending at #{} has no beginning", i),
             };
 
             match instr {
@@ -98,6 +98,10 @@ fn parse(opcodes: Vec<OpCode>) -> Vec<Instruction> {
                 _ => (),
             }
         }
+    }
+
+    if loop_stack != 0 {
+        panic!("loop that starts at #{} has no matching ending!", loop_start);
     }
 
     program
